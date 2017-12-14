@@ -1,0 +1,26 @@
+logging:
+  level:
+    com.suimi.hello: debug
+#    org.springframework: debug
+server:
+  tomcat:
+    max-threads: 10050
+    accept-count: 10000
+spring:
+  datasource:
+    platform: h2
+    url: "jdbc:h2:mem:ws;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false"
+    username: sa
+    password:
+  jpa:
+    generate-ddl: true
+    hibernate:
+      use-new-id-generator-mappings: true
+  data:
+    rest:
+      enable-enum-translation: true
+  h2:
+    console:
+      enabled: true
+
+

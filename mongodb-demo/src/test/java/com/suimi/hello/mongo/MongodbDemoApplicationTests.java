@@ -1,6 +1,9 @@
 package com.suimi.hello.mongo;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +14,9 @@ import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.suimi.hello.mongo.entity.Address;
 import com.suimi.hello.mongo.entity.Person;
+import com.suimi.hello.mongo.repository.AddressRepository;
 import com.suimi.hello.mongo.repository.PersonRepository;
 import com.suimi.hello.mongo.service.PersonService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,19 +32,39 @@ public class MongodbDemoApplicationTests {
     @Autowired
     private PersonRepository repository;
 
+    @Autowired
+    private AddressRepository addressRepository;
+
     @Test
     public void contextLoads() {
     }
 
     @Test
     public void save() {
-        for (int i = 2; i < 100; i++) {
+        for (int i = 1; i < 2; i++) {
             Person person = new Person();
             person.setName("test " + i);
             person.setPosition(new double[]{i, i});
+            person.setAddresses(address());
             Person result = personService.save(person);
             log.info("result:{}", result);
         }
+    }
+
+
+    private Set<Address> address() {
+        String[] citys = {"北京", "上海", "深圳", "成都"};
+        String[] streets = {"天府一街", "天府二街", "天府三街", "天府四街", "天府五街"};
+        Random random = new Random();
+        Set<Address> adds = new HashSet<>();
+        for (int i = 0, j = random.nextInt(3); i <= j; i++) {
+            Address address = new Address();
+            address.setCity(citys[random.nextInt(4)]);
+            address.setStreet(streets[random.nextInt(5)]);
+            adds.add(address);
+        }
+        addressRepository.save(adds);
+        return adds;
     }
 
     @Test

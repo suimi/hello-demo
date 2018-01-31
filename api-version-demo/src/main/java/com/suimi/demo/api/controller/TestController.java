@@ -15,34 +15,40 @@ import lombok.extern.slf4j.Slf4j;
  */
 @RestController
 @Slf4j
-@ApiVersion(5)
-public class HelloController {
+@RequestMapping("/test/")
+public class TestController {
 
     @RequestMapping("hello")
     @ApiVersion(1)
-    public String hello(String value) {
+    public String hello1(String value) {
         log.info("haha1..........");
-        return "hello 1 " + value;
+        return "test 1 " + value;
     }
 
     @RequestMapping("hello")
     @ApiVersion(2)
     public String hello2(String value) {
         log.info("haha2.........");
-        return "hello 2 " + value;
+        return "test 2 " + value;
     }
 
     @RequestMapping("hello")
     @ApiVersion(5)
     public String hello5(String value) {
         log.info("haha5.........");
-        return "hello 5 " + value;
+        return "test 5 " + value;
+    }
+
+    @RequestMapping("hello")
+    public String hello(String value) {
+        log.info("haha.........");
+        return "test hello " + value;
     }
 
     @RequestMapping("test")
     public String test(String value) {
         log.info("test.........");
-        return "hello test " + value;
+        return "test test " + value;
     }
 
 }

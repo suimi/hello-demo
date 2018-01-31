@@ -3,6 +3,7 @@
  */
 package com.suimi.demo.api.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -14,8 +15,13 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 @Configuration
 public class WebConfig extends WebMvcConfigurationSupport {
 
+    @Autowired
+    private VersionProperties versionProperties;
+
     @Override
     protected RequestMappingHandlerMapping createRequestMappingHandlerMapping() {
-        return new CustomRequestHandlerMapping();
+        return new CustomRequestHandlerMapping(versionProperties);
     }
+
+
 }

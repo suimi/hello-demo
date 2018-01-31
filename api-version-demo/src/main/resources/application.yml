@@ -1,2 +1,9 @@
+spring:
+  application:
+    name: @project.artifactId@
+  version: @project.version@
 server:
   port: 8081
+app:
+  api:
+    version: 6

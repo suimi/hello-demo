@@ -3,14 +3,11 @@
  */
 package com.suimi.demo.api.annotation;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -23,32 +20,34 @@ import lombok.ToString;
 @ToString
 @Builder
 public class ApiVersionCondition implements RequestCondition<ApiVersionCondition> {
-    public final static int DEFAULT_SERVICE_VERSION = Integer.MAX_VALUE;
+    public final static String MAX_VERSION = "99.99.99";
+
+    private String paramName;
 
     /**
      * 当前版本
      */
-    private int currentVersion;
+    private String currentVersion;
 
     /**
      * api 版本
      */
-    private int apiVersion;
+    private String apiVersion;
 
     // 采用最后定义优先原则,则方法上的定义覆盖类上面的定义
     @Override
     public ApiVersionCondition combine(ApiVersionCondition other) {
-        return ApiVersionCondition.builder().currentVersion(currentVersion)
-                                  .apiVersion(other.apiVersion < 0 ? currentVersion : other.apiVersion).build();
+        return ApiVersionCondition.builder().paramName(paramName).currentVersion(currentVersion).apiVersion(
+                StringUtils.hasLength(other.apiVersion) ? other.apiVersion : currentVersion).build();
     }
 
     @Override
     public ApiVersionCondition getMatchingCondition(HttpServletRequest request) {
-        String apiVersion = request.getHeader("api-version");
+        String apiVersion = request.getHeader(paramName);
         if (StringUtils.hasLength(apiVersion)) {
-            Integer version = Integer.valueOf(apiVersion);
             // 如果请求的版本号大于配置版本号， 则满足
-            if (version >= this.apiVersion && version <= this.currentVersion) {
+            if (compareVersion(apiVersion, this.apiVersion) >= 0 && compareVersion(apiVersion,
+                    this.currentVersion) <= 0) {
                 return this;
             }
         } else {
@@ -61,7 +60,19 @@ public class ApiVersionCondition implements RequestCondition<ApiVersionCondition
     @Override
     public int compareTo(ApiVersionCondition other, HttpServletRequest request) {
         // 优先匹配最新的版本号
-        return other.getApiVersion() - this.apiVersion;
+        return compareVersion(other.getApiVersion(), this.apiVersion);
     }
 
+    public int compareVersion(String version, String other) {
+        String[] splitVersion = version.split("\\.");
+        String[] splitOther = other.split("\\.");
+        int minLength = Math.min(splitOther.length, splitVersion.length);
+        for (int i = 0; i < minLength; i++) {
+            int result = splitVersion[i].compareTo(splitOther[i]);
+            if ((result != 0)) {
+                return result;
+            }
+        }
+        return splitVersion.length - splitOther.length;
+    }
 }

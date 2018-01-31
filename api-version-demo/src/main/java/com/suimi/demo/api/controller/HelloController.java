@@ -15,25 +15,25 @@ import lombok.extern.slf4j.Slf4j;
  */
 @RestController
 @Slf4j
-@ApiVersion(5)
+@ApiVersion("5")
 public class HelloController {
 
     @RequestMapping("hello")
-    @ApiVersion(1)
+    @ApiVersion("1")
     public String hello(String value) {
         log.info("haha1..........");
         return "hello 1 " + value;
     }
 
     @RequestMapping("hello")
-    @ApiVersion(2)
+    @ApiVersion("2")
     public String hello2(String value) {
         log.info("haha2.........");
         return "hello 2 " + value;
     }
 
     @RequestMapping("hello")
-    @ApiVersion(5)
+    @ApiVersion("5")
     public String hello5(String value) {
         log.info("haha5.........");
         return "hello 5 " + value;

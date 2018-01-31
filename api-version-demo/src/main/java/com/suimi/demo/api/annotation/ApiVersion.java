@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.Mapping;
 @Documented
 public @interface ApiVersion {
 
-    int value();
+    String value();
 
 }

@@ -6,4 +6,4 @@ server:
   port: 8081
 app:
   api:
-    version: 6
+    version: @project.version@

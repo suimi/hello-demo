@@ -19,21 +19,21 @@ import lombok.extern.slf4j.Slf4j;
 public class TestController {
 
     @RequestMapping("hello")
-    @ApiVersion(1)
+    @ApiVersion("1")
     public String hello1(String value) {
         log.info("haha1..........");
         return "test 1 " + value;
     }
 
     @RequestMapping("hello")
-    @ApiVersion(2)
+    @ApiVersion("2")
     public String hello2(String value) {
         log.info("haha2.........");
         return "test 2 " + value;
     }
 
     @RequestMapping("hello")
-    @ApiVersion(5)
+    @ApiVersion("3")
     public String hello5(String value) {
         log.info("haha5.........");
         return "test 5 " + value;

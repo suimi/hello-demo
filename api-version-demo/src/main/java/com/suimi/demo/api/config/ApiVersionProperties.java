@@ -6,6 +6,7 @@ package com.suimi.demo.api.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import com.suimi.demo.api.annotation.ApiVersionCondition;
 import lombok.Data;
 
 /**
@@ -15,6 +16,9 @@ import lombok.Data;
 @Configuration
 @ConfigurationProperties(prefix = "app.api")
 @Data
-public class VersionProperties {
-    private int version = Integer.MAX_VALUE;
+public class ApiVersionProperties {
+    
+    private String version = ApiVersionCondition.MAX_VERSION;
+
+    private String paramName = "api-version";
 }

@@ -18,19 +18,18 @@ import com.suimi.demo.api.annotation.ApiVersionCondition;
  */
 public class CustomRequestHandlerMapping extends RequestMappingHandlerMapping {
 
-    private VersionProperties versionProperties;
+    private ApiVersionProperties versionProperties;
 
-    public CustomRequestHandlerMapping(VersionProperties versionProperties) {
+    public CustomRequestHandlerMapping(ApiVersionProperties versionProperties) {
         this.versionProperties = versionProperties;
     }
-
 
 
     @Override
     protected RequestCondition<ApiVersionCondition> getCustomTypeCondition(Class<?> handlerType) {
         ApiVersion apiVersion = AnnotationUtils.findAnnotation(handlerType, ApiVersion.class);
         //如果类没有定义api版本，则设置为应用版本
-        int currentVersion = apiVersion == null ? versionProperties.getVersion() : apiVersion.value();
+        String currentVersion = apiVersion == null ? versionProperties.getVersion() : apiVersion.value();
         return createCondition(currentVersion, currentVersion);
     }
 
@@ -38,12 +37,13 @@ public class CustomRequestHandlerMapping extends RequestMappingHandlerMapping {
     protected RequestCondition<ApiVersionCondition> getCustomMethodCondition(Method method) {
         ApiVersion apiVersion = AnnotationUtils.findAnnotation(method, ApiVersion.class);
         //如果没有定义api版本，则设定为-1，意为未定义
-        return createCondition(versionProperties.getVersion(), apiVersion == null ? -1 : apiVersion.value());
+        return createCondition(versionProperties.getVersion(), apiVersion == null ? null : apiVersion.value());
     }
 
-    private RequestCondition<ApiVersionCondition> createCondition(int currentVersion, int apiVersion) {
+    private RequestCondition<ApiVersionCondition> createCondition(String currentVersion, String apiVersion) {
 
-        return ApiVersionCondition.builder().currentVersion(currentVersion).apiVersion(apiVersion).build();
+        return ApiVersionCondition.builder().paramName(versionProperties.getParamName()).currentVersion(currentVersion)
+                                  .apiVersion(apiVersion).build();
     }
 
 }

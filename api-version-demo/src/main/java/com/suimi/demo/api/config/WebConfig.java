@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 public class WebConfig extends WebMvcConfigurationSupport {
 
     @Autowired
-    private VersionProperties versionProperties;
+    private ApiVersionProperties versionProperties;
 
     @Override
     protected RequestMappingHandlerMapping createRequestMappingHandlerMapping() {

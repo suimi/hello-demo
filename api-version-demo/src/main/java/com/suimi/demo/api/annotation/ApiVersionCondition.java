@@ -51,8 +51,10 @@ public class ApiVersionCondition implements RequestCondition<ApiVersionCondition
                 return this;
             }
         } else {
-            //如果没有版本信息，满足所有
-            return this;
+            //如果没有版本信息，则小于当前版本的都满足所有
+            if (compareVersion(this.apiVersion, this.currentVersion) <= 0) {
+                return this;
+            }
         }
         return null;
     }
@@ -64,6 +66,15 @@ public class ApiVersionCondition implements RequestCondition<ApiVersionCondition
     }
 
     public int compareVersion(String version, String other) {
+        if (!StringUtils.hasLength(version)) {
+            if (!StringUtils.hasLength(other)) {
+                return 0;
+            } else {
+                return -1;
+            }
+        } else if (!StringUtils.hasLength(other)) {
+            return 1;
+        }
         String[] splitVersion = version.split("\\.");
         String[] splitOther = other.split("\\.");
         int minLength = Math.min(splitOther.length, splitVersion.length);

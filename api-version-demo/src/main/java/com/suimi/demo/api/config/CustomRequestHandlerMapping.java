@@ -29,14 +29,14 @@ public class CustomRequestHandlerMapping extends RequestMappingHandlerMapping {
     protected RequestCondition<ApiVersionCondition> getCustomTypeCondition(Class<?> handlerType) {
         ApiVersion apiVersion = AnnotationUtils.findAnnotation(handlerType, ApiVersion.class);
         //如果类没有定义api版本，则设置为应用版本
-        String currentVersion = apiVersion == null ? versionProperties.getVersion() : apiVersion.value();
-        return createCondition(currentVersion, currentVersion);
+        String apiVersionValue = apiVersion == null ? versionProperties.getVersion() : apiVersion.value();
+        return createCondition(versionProperties.getVersion(), apiVersionValue);
     }
 
     @Override
     protected RequestCondition<ApiVersionCondition> getCustomMethodCondition(Method method) {
         ApiVersion apiVersion = AnnotationUtils.findAnnotation(method, ApiVersion.class);
-        //如果没有定义api版本，则设定为-1，意为未定义
+        //如果没有定义api版本，则设定为null，意为未定义
         return createCondition(versionProperties.getVersion(), apiVersion == null ? null : apiVersion.value());
     }
 

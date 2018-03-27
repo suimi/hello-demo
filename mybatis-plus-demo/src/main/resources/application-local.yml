@@ -1,0 +1,18 @@
+logging:
+  level:
+    com.zlinepay.traffic: trace
+#    org.springframework: debug
+spring:
+  datasource:
+    platform: h2
+    url: "jdbc:h2:mem:mybatis-plus;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=true"
+    username: sa
+    password:
+    initialization-mode: always
+    schema: classpath:/db/schema-h2.sql
+
+  h2:
+    console:
+      enabled: true
+
+

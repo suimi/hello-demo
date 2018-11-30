@@ -6,8 +6,10 @@ package com.suimi.hello.webflux.controller;
 import com.suimi.hello.webflux.exception.ResourceNotFoundException;
 import com.suimi.hello.webflux.service.UserService;
 import com.suimi.hello.webflux.vo.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -18,6 +20,7 @@ import java.util.Objects;
  * @author suimi
  * @date 2018/11/28
  */
+@Slf4j
 @RestController @RequestMapping("/user") public class UserController {
 
     private final UserService userService;
@@ -50,5 +53,15 @@ import java.util.Objects;
 
     @DeleteMapping("/{id}") public Mono<User> delete(@PathVariable("id") final String id) {
         return this.userService.delete(id);
+    }
+
+    @PostMapping(path = "/post", consumes = MediaType.APPLICATION_STREAM_JSON_VALUE)
+    public Mono<Void> post(@RequestBody Flux<User> users) {
+        Flux<User> userFlux = users.log().doOnNext(userService::createOrUpdate);
+        return userFlux.then();
+    }
+
+    @GetMapping(path = "/list", produces = MediaType.APPLICATION_STREAM_JSON_VALUE) public Flux<User> getUsers() {  // 2
+        return userService.list();
     }
 }

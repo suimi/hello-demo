@@ -8,6 +8,9 @@
         <module>multithreading</module>
         <module>jdk</module>
         <module>websocket-demo</module>
+        <module>reactor-demo</module>
+        <module>io-nio-demo</module>
+        <module>gatling-test</module>
     </modules>
     <packaging>pom</packaging>
     <properties>

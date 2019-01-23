@@ -5,6 +5,18 @@
     <artifactId>hello-demo</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>api-version-demo</module>
+        <module>demo-webflux</module>
+        <module>disruptor-demo</module>
+        <module>graceful-shutdown-demo</module>
+        <module>mongodb-demo</module>
+        <module>mybatis-plus-demo</module>
+        <module>opencensus-demo</module>
+        <module>remote-shell-demo</module>
+        <module>shell-demo</module>
+        <module>tomcat-nio2-demo</module>
+        <module>vavr-demo</module>
+        <module>zookeeper-demo</module>
         <module>multithreading</module>
         <module>jdk</module>
         <module>websocket-demo</module>

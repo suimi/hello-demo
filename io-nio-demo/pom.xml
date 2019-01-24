@@ -12,5 +12,10 @@
     <artifactId>io-nio-demo</artifactId>
     <packaging>pom</packaging>
 
+    <modules>
+        <module>tomcat-io</module>
+        <module>tomcat-nio</module>
+        <module>webflux</module>
+    </modules>
 
 </project>

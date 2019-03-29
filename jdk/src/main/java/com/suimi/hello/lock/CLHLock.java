@@ -25,7 +25,7 @@ public class CLHLock {
 
     }
 
-    public void lock() {
+    public void lock() throws InterruptedException {
         //得到当前线程的Node节点
         CLHNode own = current.get();
         //设置当前线程去注册锁，注意在多线程下环境下，这个
@@ -33,6 +33,8 @@ public class CLHLock {
         CLHNode preNode = UPDATER.getAndSet(this, own);
         if (preNode != null) {//已有线程占用了锁，进入自旋
             while (preNode.locked) {
+                System.out.println(Thread.currentThread().getName() + " 开始自旋....  ");
+                Thread.sleep(2000);
             }
         }
     }
@@ -40,7 +42,8 @@ public class CLHLock {
     public void unlock() {
         CLHNode own = current.get();
         // 如果队列里只有当前线程，则释放对当前线程的引用（for GC）。
-        UPDATER.compareAndSet(this, own, null);
+        boolean result = UPDATER.compareAndSet(this, own, null);
+        System.out.println("update null: " + result);
         own.locked = false;// 改变状态，让后续线程结束自旋
     }
 }

@@ -10,7 +10,6 @@ package com.suimi.hello.hash;
 
 import java.util.*;
 
-
 public class ConsistentHash<T> {
     private final HashFunction hashFunction;
 
@@ -53,7 +52,7 @@ public class ConsistentHash<T> {
         if (circle.isEmpty()) {
             return null;
         }
-        long hash = hashFunction.hash((String) key);// node 用String来表示,获得node在哈希环中的hashCode
+        long hash = hashFunction.hash((String)key);// node 用String来表示,获得node在哈希环中的hashCode
         if (!circle.containsKey(hash)) {//数据映射在两台虚拟机器所在环之间,就需要按顺时针方向寻找机器
             SortedMap<Long, T> tailMap = circle.tailMap(hash);
             hash = tailMap.isEmpty() ? circle.firstKey() : tailMap.firstKey();
@@ -63,6 +62,12 @@ public class ConsistentHash<T> {
 
     public long getSize() {
         return circle.size();
+    }
+
+    public void printCircle() {
+        circle.forEach((l, n) -> {
+            System.out.println(n + ": " + l);
+        });
     }
 
     /**
@@ -99,8 +104,14 @@ public class ConsistentHash<T> {
         nodes.add("C");
 
         ConsistentHash<String> consistentHash = new ConsistentHash<String>(new HashFunction(), 2, nodes);
-        consistentHash.add("D");
 
+        consistentHash.printCircle();
+        System.out.println("hash circle size: " + consistentHash.getSize());
+        System.out.println("location of each node are follows: ");
+        consistentHash.testBalance();
+
+        consistentHash.add("D");
+        consistentHash.printCircle();
         System.out.println("hash circle size: " + consistentHash.getSize());
         System.out.println("location of each node are follows: ");
         consistentHash.testBalance();

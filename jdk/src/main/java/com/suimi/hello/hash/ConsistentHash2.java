@@ -91,7 +91,7 @@ public class ConsistentHash2 {
     public static void main(String[] args) {
         String[] keys = {"太阳", "月亮", "星星"};
         Random random = new Random(3);
-        for (int j = 0; j < 10000000; j++) {
+        for (int j = 0; j < 10; j++) {
             int i = random.nextInt(3);
             String key = keys[i] + " " + j;
             System.out.println(key  + " -> " + getHash(key) + " : " + getServer(key) );

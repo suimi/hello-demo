@@ -13,7 +13,7 @@ public class CountDownLatchTest {
 
 
     public static void main(String[] args) {
-        CountDownLatch latch = new CountDownLatch(10);
+        CountDownLatch latch = new CountDownLatch(5);
         for (int i = 0; i < 5; i++) {
             new Thread(() -> {
                 System.out.println("线程" + Thread.currentThread().getName() + "正在执行");

@@ -24,6 +24,7 @@
         <module>io-nio-demo</module>
         <module>gatling-test</module>
         <module>dropwizard-metrics-demo</module>
+        <module>zeromq-demo</module>
     </modules>
     <packaging>pom</packaging>
     <properties>

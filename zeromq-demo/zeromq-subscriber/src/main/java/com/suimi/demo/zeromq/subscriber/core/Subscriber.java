@@ -27,6 +27,7 @@ import java.util.concurrent.TimeUnit;
         socket.connect("tcp://127.0.0.1:5555");
         socket.subscribe("top".getBytes());
         socket.subscribe("time".getBytes());
+        socket.setReceiveTimeOut(1000*3);
         ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
         service.schedule(this::receiveMsg, 1, TimeUnit.SECONDS);
     }
